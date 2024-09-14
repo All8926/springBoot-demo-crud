@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
@@ -62,8 +64,29 @@ class DemoApplicationTests {
 
     @Test
    void testGetList(){
-        List<Emp> empList = empMapper.getList("小", (short) 1, LocalDate.of(2000, 1, 12), LocalDate.of(2025, 1, 1));
+//        List<Emp> empList = empMapper.getList("张", (short) 1, LocalDate.of(2000, 1, 12), LocalDate.of(2025, 1, 1));
+
+        // 动态sql语句
+        List<Emp> empList = empMapper.getList(null, (short) 1, null, null);
         System.out.println(empList);
+    }
+
+    @Test
+    void testUpdate2(){
+        Emp emp = new Emp();
+        emp.setId(23);
+        emp.setUsername("zhuxiaoming444");
+        emp.setName("祝小明22");
+        emp.setUpdateTime(LocalDateTime.now());
+        empMapper.update2(emp);
+    }
+
+    @Test
+    void TestDeleteByIds(){
+        List<Integer> ids = Arrays.asList(16, 18);
+
+        empMapper.deleteByIds(ids);
+
     }
 
 }

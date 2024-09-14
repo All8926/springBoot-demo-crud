@@ -25,11 +25,17 @@ public interface EmpMapper {
     public void update(Emp emp);
     
     // 根据id查询
-    @Select("select * from emp where id = #{id}")
+    @Select("select id, username, password, name, gender, image, job, entrydate, dept_id, create_time, update_time from emp where id = #{id}")
     public Emp getById(Integer id);
 
     //条件查询  (concat: 字符串拼接函数)
-    @Select("select * from emp where name like concat('%',#{name},'%') and gender = #{gender} and " +
-            "entrydate between #{begin} and #{end} order by update_time desc")
+//    @Select("select * from emp where name like concat('%',#{name},'%') and gender = #{gender} and " +
+//            "entrydate between #{begin} and #{end} order by update_time desc")
     public List<Emp> getList(@Param("name") String name, @Param("gender") Short gender, @Param("begin") LocalDate begin, @Param("end") LocalDate end);
+
+    //动态sql 更新
+    public void update2(Emp emp);
+
+    // 批量删除
+    public void deleteByIds(@Param("ids") List<Integer> ids);
 }
