@@ -23,6 +23,10 @@ public interface EmpMapper {
     @Update("update emp set username=#{username},name=#{name},gender=#{gender},image=#{image},job=#{job},entrydate=#{entrydate}," +
             "dept_id=#{deptId},update_time=#{updateTime} where id = #{id}")
     public void update(Emp emp);
+
+    // 查询全部
+    @Select("select * from emp")
+    public List<Emp> list();
     
     // 根据id查询
     @Select("select id, username, password, name, gender, image, job, entrydate, dept_id, create_time, update_time from emp where id = #{id}")
