@@ -35,7 +35,7 @@
     <select id="getList" resultType="com.example.pojo.Emp">
         <include refid="commonSelect"></include>
         <where>
-            <if test="name != null">
+            <if test="name != null and name != ''">
                 name like concat('%', #{name}, '%')
             </if>
             <if test="gender != null">
