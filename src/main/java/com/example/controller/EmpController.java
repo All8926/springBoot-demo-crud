@@ -23,7 +23,7 @@ public class EmpController {
     private EmpService empService;
 
     /**
-     * 分页查询员工列表
+     * 条件分页查询员工列表
      * @param page
      * @param pageSize
      * @return
@@ -60,6 +60,28 @@ public class EmpController {
         emp.setCreateTime(LocalDateTime.now());
         emp.setUpdateTime(LocalDateTime.now());
         empService.save(emp);
+        return Result.success();
+    }
+
+    /**
+     * 根据id查询员工
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public Result getById(@PathVariable Integer id){
+       Emp emp = empService.getById(id);
+        return Result.success(emp);
+    }
+
+    /**
+     * 修改员工
+     * @param emp
+     * @return
+     */
+    @PutMapping
+    public Result update(@RequestBody Emp emp){
+        empService.update(emp);
         return Result.success();
     }
 }

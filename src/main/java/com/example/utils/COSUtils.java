@@ -10,7 +10,9 @@ import com.qcloud.cos.model.ObjectMetadata;
 import com.qcloud.cos.model.PutObjectRequest;
 import com.qcloud.cos.model.PutObjectResult;
 import com.qcloud.cos.region.Region;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,14 +27,19 @@ import java.util.UUID;
 @Slf4j
 @Component
 public class COSUtils {
-    private static String secretId = "";
-    private static String secretKey = "";
-    private static String bucketName = "";
-    private static String folder = "";
-    private static String region = "";
-    private static COSClient cosClient = createCli();
+    @Value("${tencent.cos.secretId}")
+    private String secretId;
+    @Value("${tencent.cos.secretKey}")
+    private String secretKey;
+    @Value("${tencent.cos.bucketName}")
+    private String bucketName;
+    private String folder = "/test";
+    @Value("${tencent.cos.region}")
+    private String region;
 
-    private static COSClient createCli() {
+
+    private  COSClient createCli() {
+        log.info("secretId:{}", secretId);
         // 初始化用户身份信息(secretId, secretKey)
         COSCredentials cred = new BasicCOSCredentials(secretId, secretKey);
         // 设置bucket的区域, COS地域的简称请参照 https://www.qcloud.com/document/product/436/6224
@@ -41,9 +48,12 @@ public class COSUtils {
         return new COSClient(cred, clientConfig);
     }
 
+
     public URL putInputStreamDemo(MultipartFile file) throws IOException {
+        COSClient cosClient = createCli();
+
         String originalFilename = file.getOriginalFilename();
-        String key = folder+ UUID.randomUUID().toString() + originalFilename.substring(originalFilename.lastIndexOf("."));
+        String key = folder + UUID.randomUUID().toString() + originalFilename.substring(originalFilename.lastIndexOf("."));
         log.info("ket:{}", key);
 
         InputStream inputStream = file.getInputStream();
@@ -60,7 +70,7 @@ public class COSUtils {
             PutObjectResult putObjectResult = cosClient.putObject(putObjectRequest);
             System.out.println(putObjectResult.getRequestId());
             URL url = cosClient.getObjectUrl(bucketName, key);
-            log.info("url: {}",url);
+            log.info("url: {}", url);
             return url;
         } catch (CosServiceException e) {
             e.printStackTrace();
