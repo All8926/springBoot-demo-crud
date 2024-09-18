@@ -33,7 +33,7 @@ public class COSUtils {
     private String secretKey;
     @Value("${tencent.cos.bucketName}")
     private String bucketName;
-    private String folder = "/test";
+    private String folder = "/test1";
     @Value("${tencent.cos.region}")
     private String region;
 
