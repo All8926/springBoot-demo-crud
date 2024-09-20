@@ -42,4 +42,8 @@ public interface EmpMapper {
 
     // 批量删除
     public void deleteByIds(@Param("ids") List<Integer> ids);
+
+    // 登录
+    @Select("select * from emp where username=#{username} and password = #{password}")
+    public Emp getByUsernameAndPassword(Emp emp);
 }

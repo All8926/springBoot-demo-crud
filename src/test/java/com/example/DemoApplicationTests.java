@@ -2,17 +2,18 @@ package com.example;
 
 import com.example.mapper.EmpMapper;
 import com.example.pojo.Emp;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-@SpringBootTest
+//@SpringBootTest
 class DemoApplicationTests {
     @Autowired
     private EmpMapper empMapper;
@@ -87,6 +88,33 @@ class DemoApplicationTests {
 
         empMapper.deleteByIds(ids);
 
+    }
+
+    /**
+     * 生成jwt
+     */
+    @Test
+    void TestGenJwt(){
+        HashMap<String,Object> objectObjectHashMap = new HashMap<>();
+        objectObjectHashMap.put("name","abc");
+        objectObjectHashMap.put("pwd",123456);
+        String token = Jwts.builder().signWith(SignatureAlgorithm.HS256, "test")    // 签名算法
+                .setClaims(objectObjectHashMap)     // 自定义内容（在载荷）
+                .setExpiration(new Date(System.currentTimeMillis() + 600 * 1000))    // 过期时间
+                .compact();
+        System.out.println(token);
+    }
+
+    /**
+     * 解析jwt
+     */
+    @Test
+    void TestParseJwt(){
+        Claims test = Jwts.parser()
+                .setSigningKey("test")    // 指定签名密钥
+                .parseClaimsJws("eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoi5p2O5ZubIiwiaWQiOjI2LCJleHAiOjE3MjY3OTUxNjEsInVzZXJuYW1lIjoibGlzaSJ9.b5e8iLKX3jT2OXDq78AQEBW8fKMhXrbIIg6gmezvOx0")
+                .getBody();     // 解析令牌
+        System.out.println(test);
     }
 
 }
