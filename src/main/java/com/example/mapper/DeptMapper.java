@@ -22,4 +22,7 @@ public interface DeptMapper {
 
     @Update("update dept set name = #{name},update_time=#{updateTime} where id = #{id}")
     void update(Dept dept);
+
+    @Delete("delete from emp where dept_id = #{deptId}")
+    void deleteEmpsByDeptId(Integer deptId);
 }

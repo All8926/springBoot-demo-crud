@@ -19,3 +19,8 @@ tencent:
     secretKey: xxx
     bucketName: xxx
     region: xxx
+
+#Spring事物管理日志
+logging:
+  level:
+    org.springframework.jdbc.support.jdbcTransactionManager: debug

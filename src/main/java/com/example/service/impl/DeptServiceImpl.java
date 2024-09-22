@@ -5,9 +5,12 @@ import com.example.pojo.Dept;
 import com.example.service.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 
 @Service
 public class DeptServiceImpl implements DeptService {
@@ -20,9 +23,17 @@ public class DeptServiceImpl implements DeptService {
         return list;
     }
 
+    // Spring事物管理,
+    // rollbackFor = Exception.class 表示回滚所有错误
+    // propagation = Propagation.REQUIRED 设置事物的传播行为
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     @Override
     public void delete(Integer id) {
+        // 1.删除部门
         deptMapper.delete(id);
+//        int a = 1 / 0;
+        // 2.删除部门下的员工
+        deptMapper.deleteEmpsByDeptId(id);
     }
 
     @Override
