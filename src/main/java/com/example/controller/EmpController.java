@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.anno.Log;
 import com.example.pojo.Emp;
 import com.example.pojo.PageBean;
 import com.example.pojo.Result;
@@ -44,6 +45,7 @@ public class EmpController {
      * @param ids
      * @return
      */
+    @Log
     @DeleteMapping
     public Result delete(@RequestParam List<Integer> ids){
         empService.delete(ids);
@@ -55,6 +57,7 @@ public class EmpController {
      * @param emp
      * @return
      */
+    @Log
     @PostMapping
     public Result save(@RequestBody Emp emp){
         emp.setCreateTime(LocalDateTime.now());
@@ -79,6 +82,7 @@ public class EmpController {
      * @param emp
      * @return
      */
+    @Log
     @PutMapping
     public Result update(@RequestBody Emp emp){
         empService.update(emp);

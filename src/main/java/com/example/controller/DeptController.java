@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.anno.Log;
 import com.example.pojo.Dept;
 import com.example.pojo.Emp;
 import com.example.pojo.Result;
@@ -43,6 +44,7 @@ public class DeptController {
      * 根据id删除部门
      * @return
      */
+    @Log
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable Integer id){
         log.info("删除的部门id: {}", id);
@@ -55,6 +57,7 @@ public class DeptController {
      * @param dept
      * @return
      */
+    @Log
     @PostMapping
     public Result add(@RequestBody Dept dept){
         log.info("新增的部门：{}", dept);
@@ -67,6 +70,7 @@ public class DeptController {
      * @param dept
      * @return
      */
+    @Log
     @PutMapping
     public Result update(@RequestBody Dept dept){
         log.info("修改的信息：{}", dept);
